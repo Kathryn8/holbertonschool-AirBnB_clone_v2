@@ -24,7 +24,7 @@ class DBStorage:
         pool_pre_ping=True
         )
         # start session??
-        running_environent = os.getenv("HBNB_ENV")
+        running_environment = os.getenv("HBNB_ENV")
         if running_environment == "test":
             Base.MetaData.drop_all(self.__engine)
 
