@@ -22,3 +22,16 @@ class Place(BaseModel, Base):
     amenity_ids = []
     user = relationship("User") # is this correct?
     cities = relationship("City") # is this correct?
+    reviews = relationship(
+        "Review", back_populates="place",
+        cascade="all, delete, delete-orphan")
+
+    @property
+    def reviews(self):
+        """Return list of Review instances, place_id equals current Place.id"""
+        from models import storage
+        review_list = []
+        for review in storage.all(Review).values():
+            if review.place_id == self.id:
+                review_list.append(review)
+        return review_list
