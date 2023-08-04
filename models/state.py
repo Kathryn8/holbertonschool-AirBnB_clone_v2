@@ -4,7 +4,6 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, DateTime, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-#from models import storage
 
 
 class State(BaseModel, Base):
@@ -17,6 +16,8 @@ class State(BaseModel, Base):
     @property
     def cities(self):
         """returns the list of City instance that belong to that State"""
+        from models import storage
+        from models.city import City
         all_cities_dict = storage.all(City)
         return_list = []
         for key, value in all_cities_dict.items():
