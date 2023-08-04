@@ -131,7 +131,7 @@ class HBNBCommand(cmd.Cmd):
         if len(kwargs) != 0:
             for key, value in kwargs.items():
                 setattr(new_instance, key, value)
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
         storage.save()
 
