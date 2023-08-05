@@ -1,9 +1,27 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
+from models.review import Review
 from sqlalchemy import Column, Integer, DateTime, String, Float
 from sqlalchemy.orm import relationship
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, Table
+
+metadata = Base.metadata
+place_amenity = Table(
+    "place_amenity", metadata,
+    Column("place_id",
+           String(60),
+           ForeignKey("places.id"),
+           primary_key=True,
+           nullable=False
+    ),
+    Column("amenity_id",
+           String(60),
+           ForeignKey("amenities.id"),
+           primary_key=True,
+           nullable=False
+    )
+)
 
 
 class Place(BaseModel, Base):
@@ -25,6 +43,8 @@ class Place(BaseModel, Base):
     reviews = relationship(
         "Review", back_populates="place",
         cascade="all, delete, delete-orphan")
+    amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
+    # maybe add to above line: back_populates="places"?? plural?
 
     @property
     def reviews(self):
@@ -36,18 +56,19 @@ class Place(BaseModel, Base):
                 review_list.append(review)
         return review_list
 
-    place_amenity = Table(
-        "place_amenity", metadata = Base.metadata,
-        Column("place_id",
-            String(60),
-            ForeignKey("places.id"),
-            primary_key=True,
-            nullable=False
-        ),
-        Column("amenity_id",
-            String(60),
-            ForeignKey("amenities.id"),
-            primary_key=True,
-            nullable=False
-        )
-    )
+    @property
+    def amenities(self):
+        """returns the list of Amenity instances based on the attribute amenity_ids"""
+        amenity_obj_list = []
+        from models import storage
+        for amenity in storage.all(Amenity).values():
+            if amenity.id == self.place_amenity.amenity_id:
+                amenity__obj_list.append(amenity)
+        return amenity_obj_list
+
+    @amenities.setter
+    def amenities(self, obj):
+        """that handles append method for adding an Amenity.id"""
+        if obj is not type(Amenity):
+            return
+        self.amenity_ids.append(obj.id)
