@@ -6,9 +6,9 @@ from sqlalchemy import Column, Integer, DateTime, String, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey, Table
 
-metadata = Base.metadata
+
 place_amenity = Table(
-    "place_amenity", metadata,
+    "place_amenity", Base.metadata,
     Column("place_id",
            String(60),
            ForeignKey("places.id"),
