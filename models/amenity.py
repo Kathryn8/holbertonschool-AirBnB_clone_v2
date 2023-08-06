@@ -10,6 +10,6 @@ class Amenity(BaseModel, Base):
     __tablename__ = "amenities"
     name = Column(String(128), nullable=False)
     place_amenities = relationship(
-        "Place", secondary="place_amenity")
+        "Place", secondary="place_amenity", viewonly=True)
     # we may add/adjust here for many-to-many relationship
     # maybe add to above line back_populates="amenities"
