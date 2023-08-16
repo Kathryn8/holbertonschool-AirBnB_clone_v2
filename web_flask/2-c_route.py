@@ -17,11 +17,13 @@ def hBNB():
     """Displays a string to stdout"""
     return "HBNB"
 
+
 @app.route('/c/<text>', strict_slashes=False)
 def ctext(text):
     """Displays a string to stdout"""
     text = text.replace('_', ' ')
     return f'C {escape(text)}'
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
