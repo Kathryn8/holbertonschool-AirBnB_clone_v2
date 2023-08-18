@@ -7,6 +7,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey, Table
 from models.amenity import Amenity
 from models.review import Review
+from os import getenv
 
 place_amenity = Table(
     "place_amenity", Base.metadata,
@@ -14,14 +15,12 @@ place_amenity = Table(
            String(60),
            ForeignKey("places.id"),
            primary_key=True,
-           nullable=False
-    ),
+           nullable=False),
     Column("amenity_id",
            String(60),
            ForeignKey("amenities.id"),
            primary_key=True,
-           nullable=False
-    )
+           nullable=False)
 )
 
 
@@ -39,13 +38,14 @@ class Place(BaseModel, Base):
     latitude = Column(Float(), nullable=True)
     longitude = Column(Float(), nullable=True)
     amenity_ids = []
-    user = relationship("User") # is this correct?
-    cities = relationship("City") # is this correct?
-    reviews = relationship(
-        "Review", back_populates="place",
-        cascade="all, delete, delete-orphan")
-    amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
-    # maybe add to above line: back_populates="places"?? plural?
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        user = relationship("User")
+        cities = relationship("City")
+        reviews = relationship(
+            "Review", back_populates="place",
+            cascade="all, delete, delete-orphan")
+        amenities = relationship(
+            "Amenity", secondary="place_amenity", viewonly=False)
 
     @property
     def reviews(self):
@@ -59,7 +59,7 @@ class Place(BaseModel, Base):
 
     @property
     def amenities(self):
-        """returns the list of Amenity instances based on the attribute amenity_ids"""
+        """returns list of Amenity instances based on attribute amenity_ids"""
         amenity_obj_list = []
         from models import storage
         for amenity in storage.all(Amenity).values():
