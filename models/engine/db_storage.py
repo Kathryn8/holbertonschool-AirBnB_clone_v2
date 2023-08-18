@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 This module contains the class DBStorage which is a class similar to FileStorage
 but it will be interacting with a SQL database instead of JSON files.
