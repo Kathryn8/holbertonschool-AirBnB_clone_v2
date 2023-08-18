@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-This module contains the class DBStorage which is a class similar to FileStorage
+This module contains the class DBStorage which is a class similar to
+FileStorage
 but it will be interacting with a SQL database instead of JSON files.
 """
 import os
@@ -27,8 +28,9 @@ class DBStorage:
         host = os.getenv("HBNB_MYSQL_HOST")
         database = os.getenv("HBNB_MYSQL_DB")
         self.__engine = create_engine(
-        'mysql+mysqldb://{}:{}@{}/{}'.format(user, password, host, database),
-        pool_pre_ping=True
+            'mysql+mysqldb://{}:{}@{}/{}'
+            .format(user, password, host, database),
+            pool_pre_ping=True
         )
         # start session??
         running_environment = os.getenv("HBNB_ENV")
@@ -39,7 +41,7 @@ class DBStorage:
         """query on the current database session"""
         if cls is None:
             object_list = self.__session.query(
-            User, State, City, Amenity, Place, Review).all()
+                User, State, City, Amenity, Place, Review).all()
         else:
             object_list = self.__session.query(cls).all()
 
@@ -68,8 +70,10 @@ class DBStorage:
 
         Base.metadata.create_all(self.__engine)
 
-        self.__session = scoped_session(sessionmaker(bind=self.__engine,
-                                              expire_on_commit=False))
+        self.__session = scoped_session(
+            sessionmaker(
+                bind=self.__engine,
+                expire_on_commit=False))
 
     def close(self):
         """close the sesssion"""

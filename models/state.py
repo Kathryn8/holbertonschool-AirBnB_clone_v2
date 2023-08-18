@@ -26,6 +26,6 @@ class State(BaseModel, Base):
             return return_list
     else:
         cities = relationship(
-        "City", back_populates="state", cascade="all, delete, delete-orphan")
-
-        
+            "City",
+            back_populates="state",
+            cascade="all, delete, delete-orphan")
