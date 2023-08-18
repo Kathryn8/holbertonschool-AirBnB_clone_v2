@@ -5,6 +5,7 @@ from models.place import Place
 from models.review import Review
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from os import getenv
 
 
 class User(BaseModel, Base):
