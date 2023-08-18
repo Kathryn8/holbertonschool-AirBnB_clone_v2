@@ -38,22 +38,15 @@ class DBStorage:
     def all(self, cls=None):
         """query on the current database session"""
         if cls is None:
-            print("Querying all objects")
             object_list = self.__session.query(
             User, State, City, Amenity, Place, Review).all()
         else:
-            print(f"Querying objects of class {cls}")
             object_list = self.__session.query(cls).all()
-
-        print(f"Retrieved {len(object_list)} objects from the database")
 
         new_dict = {}
         for obj in object_list:
             obj_key = (obj.to_dict()['__class__'] + '.' + obj.id)
-            # can we use to_dict on these obj?
             new_dict[obj_key] = obj
-
-        print(f"Returning a dictionary with {len(new_dict)} entries")
 
         return new_dict
 
