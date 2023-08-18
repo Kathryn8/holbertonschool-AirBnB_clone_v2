@@ -5,7 +5,8 @@ from models.review import Review
 from sqlalchemy import Column, Integer, DateTime, String, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey, Table
-
+from models.amenity import Amenity
+from models.review import Review
 
 place_amenity = Table(
     "place_amenity", Base.metadata,
@@ -62,7 +63,7 @@ class Place(BaseModel, Base):
         amenity_obj_list = []
         from models import storage
         for amenity in storage.all(Amenity).values():
-            if amenity.id == self.place_amenity.amenity_id:
+            if amenity.id == self.amenity_ids:
                 amenity__obj_list.append(amenity)
         return amenity_obj_list
 
