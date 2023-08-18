@@ -39,6 +39,10 @@ class FileStorage:
         obj_key = (obj.to_dict()['__class__'] + '.' + obj.id)
         FileStorage.__objects.pop(obj_key)
 
+    def close(self):
+        """call reload() method for deserializing the JSON file to objects"""
+        self.reload()
+
     def reload(self):
         """Loads storage dictionary from file"""
         from models.base_model import BaseModel
