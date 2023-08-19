@@ -26,7 +26,7 @@ def list_city_states(id=None):
         for state in states.values():
             if id == state.id:
                 found = True
-        if found == False:
+        if found is False:
             id = 'not_found'
     return render_template(
         '9-states.html',
