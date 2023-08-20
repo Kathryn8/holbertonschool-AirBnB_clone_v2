@@ -5,6 +5,7 @@ from markupsafe import escape
 from models import storage
 from models.state import State
 from models.city import City
+from models.amenity import Amenity
 
 app = Flask(__name__)
 
@@ -13,13 +14,15 @@ app = Flask(__name__)
 def display_states():
     """Displays a HTML page"""
     return render_template(
-        '9-states.html',
-        states=storage.all(State))
+        '10-hbnb_filters.html',
+        states=storage.all(State),
+        cities=storage.all(City),
+        amenities=storage.all(Amenity))
 
-
+"""
 @app.route('/states/<id>', strict_slashes=False)
 def list_city_states(id=None):
-    """Displays a HTML page"""
+    ""Displays a HTML page""
     states = storage.all(State)
     if id:
         found = False
@@ -33,6 +36,7 @@ def list_city_states(id=None):
         states=states,
         cities=storage.all(City),
         id=id, )
+"""
 
 
 @app.teardown_appcontext
